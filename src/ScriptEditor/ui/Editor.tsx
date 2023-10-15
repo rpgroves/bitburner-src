@@ -22,21 +22,23 @@ export function Editor({ onMount, onChange }: EditorProps) {
   useEffect(() => {
     if (!containerDiv.current) return;
     // Before initializing monaco editor
-    scriptEditor.initialize();
+    scriptEditor.initialize().then(() => {
+      if (!containerDiv.current) return;
+      // Initialize monaco editor
+      editorRef.current = monaco.editor.create(containerDiv.current, {
+        value: "",
+        automaticLayout: true,
+        language: "javascript",
+        ...options,
+        glyphMargin: true,
+        theme: "defaultTheme",
+      });
 
-    // Initialize monaco editor
-    editorRef.current = monaco.editor.create(containerDiv.current, {
-      value: "",
-      automaticLayout: true,
-      language: "javascript",
-      ...options,
-      glyphMargin: true,
-    });
-
-    // After initializing monaco editor
-    onMount(editorRef.current);
-    subscription.current = editorRef.current.onDidChangeModelContent(() => {
-      onChange(editorRef.current?.getValue());
+      // After initializing monaco editor
+      onMount(editorRef.current);
+      subscription.current = editorRef.current.onDidChangeModelContent(() => {
+        onChange(editorRef.current?.getValue());
+      });
     });
 
     // Unmounting

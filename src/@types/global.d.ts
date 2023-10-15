@@ -11,3 +11,8 @@ declare module "*.png" {
 declare interface Document {
   achievements: string[];
 }
+
+declare module "*.wasm" {
+  const bytes: Uint8Array;
+  export = bytes;
+}

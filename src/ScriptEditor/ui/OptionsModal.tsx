@@ -1,16 +1,7 @@
 import React, { ReactElement } from "react";
 
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import Select from "@mui/material/Select";
-import Switch from "@mui/material/Switch";
-import MenuItem from "@mui/material/MenuItem";
-import TextField from "@mui/material/TextField";
-import EditIcon from "@mui/icons-material/Edit";
-
-import { useBoolean } from "../../ui/React/hooks";
+import { MenuItem, Select, Switch, TextField, Typography } from "@mui/material";
 import { Modal } from "../../ui/React/Modal";
-import { ThemeEditorModal } from "./ThemeEditorModal";
 import { CursorBlinking, CursorStyle, Options } from "./Options";
 
 const CURSOR_STYLES: CursorStyle[] = ["line", "block", "underline", "line-thin", "block-outline", "underline-thin"];
@@ -25,8 +16,6 @@ export type OptionsModalProps = {
 };
 
 export function OptionsModal(props: OptionsModalProps): ReactElement {
-  const [themeEditorOpen, { on: openThemeEditor, off: closeThemeEditor }] = useBoolean(false);
-
   const onFontSizeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const fontSize = parseInt(event.target.value);
     if (!Number.isFinite(fontSize) || fontSize < 1) return;
@@ -40,25 +29,8 @@ export function OptionsModal(props: OptionsModalProps): ReactElement {
   };
 
   return (
+    // Todo, add back options for themes
     <Modal open={props.open} onClose={props.onClose}>
-      <ThemeEditorModal open={themeEditorOpen} onChange={props.onThemeChange} onClose={closeThemeEditor} />
-      <div style={{ display: "flex", alignItems: "center" }}>
-        <Typography>Theme: </Typography>
-        <Select onChange={(event) => props.onOptionChange("theme", event.target.value)} value={props.options.theme}>
-          <MenuItem value="monokai">monokai</MenuItem>
-          <MenuItem value="solarized-dark">solarized-dark</MenuItem>
-          <MenuItem value="solarized-light">solarized-light</MenuItem>
-          <MenuItem value="vs-dark">dark</MenuItem>
-          <MenuItem value="light">light</MenuItem>
-          <MenuItem value="dracula">dracula</MenuItem>
-          <MenuItem value="one-dark">one-dark</MenuItem>
-          <MenuItem value="customTheme">Custom theme</MenuItem>
-        </Select>
-        <Button onClick={openThemeEditor} sx={{ ml: 1 }} startIcon={<EditIcon />}>
-          Edit custom theme
-        </Button>
-      </div>
-
       <div style={{ display: "flex", alignItems: "center" }}>
         <Typography marginRight={"auto"}>Indent using spaces: </Typography>
         <Switch

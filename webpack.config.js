@@ -153,6 +153,7 @@ module.exports = (env, argv) => {
           test: /\.s?css$/,
           use: ["style-loader", "css-loader"],
         },
+        { test: /\.wasm$/, type: "javascript/auto", loader: "encoded-uint8array-loader" },
       ],
     },
     optimization: {
@@ -184,7 +185,7 @@ module.exports = (env, argv) => {
         "@enums": path.resolve(__dirname, "src/Enums"),
         "@nsdefs": path.resolve(__dirname, "src/ScriptEditor/NetscriptDefinitions.d.ts"),
       },
-      fallback: { crypto: false },
+      fallback: { crypto: false, path: "path-browserify" },
     },
     stats: statsConfig,
   };

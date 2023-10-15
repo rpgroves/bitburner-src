@@ -1,18 +1,9 @@
+import type { editor } from "monaco-editor";
+
 import React from "react";
-import * as monaco from "monaco-editor";
 
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Link from "@mui/material/Link";
-import Table from "@mui/material/Table";
-import TableCell from "@mui/material/TableCell";
-import TableRow from "@mui/material/TableRow";
-import TableBody from "@mui/material/TableBody";
-import Typography from "@mui/material/Typography";
-
+import { Box, Button, Link, Table, TableCell, TableRow, TableBody, Typography } from "@mui/material";
 import SettingsIcon from "@mui/icons-material/Settings";
-
-import { makeTheme, sanitizeTheme } from "./themes";
 
 import { Modal } from "../../ui/React/Modal";
 import { Page } from "../../ui/Router";
@@ -22,14 +13,12 @@ import { Settings } from "../../Settings/Settings";
 import { OptionsModal, OptionsModalProps } from "./OptionsModal";
 import { useScriptEditorContext } from "./ScriptEditorContext";
 
-type IStandaloneCodeEditor = monaco.editor.IStandaloneCodeEditor;
-
-interface IProps {
-  editor: IStandaloneCodeEditor | null;
+interface ToolbarProps {
+  editor: editor.IStandaloneCodeEditor | null;
   onSave: () => void;
 }
 
-export function Toolbar({ editor, onSave }: IProps) {
+export function Toolbar({ editor, onSave }: ToolbarProps) {
   const [ramInfoOpen, { on: openRAMInfo, off: closeRAMInfo }] = useBoolean(false);
   const [optionsOpen, { on: openOptions, off: closeOptions }] = useBoolean(false);
 
@@ -50,8 +39,7 @@ export function Toolbar({ editor, onSave }: IProps) {
   };
 
   const onThemeChange = () => {
-    sanitizeTheme(Settings.EditorTheme);
-    monaco.editor.defineTheme("customTheme", makeTheme(Settings.EditorTheme));
+    /** Todo */
   };
 
   return (
@@ -88,14 +76,12 @@ export function Toolbar({ editor, onSave }: IProps) {
         <Table>
           <TableBody>
             {ramEntries.map(([n, r]) => (
-              <React.Fragment key={n + r}>
-                <TableRow>
-                  <TableCell sx={{ color: Settings.theme.primary }}>{n}</TableCell>
-                  <TableCell align="right" sx={{ color: Settings.theme.primary }}>
-                    {r}
-                  </TableCell>
-                </TableRow>
-              </React.Fragment>
+              <TableRow key={n + r}>
+                <TableCell sx={{ color: Settings.theme.primary }}>{n}</TableCell>
+                <TableCell align="right" sx={{ color: Settings.theme.primary }}>
+                  {r}
+                </TableCell>
+              </TableRow>
             ))}
           </TableBody>
         </Table>
